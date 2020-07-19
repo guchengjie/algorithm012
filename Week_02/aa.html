@@ -1,0 +1,37 @@
+<script>
+  /**
+ * // Definition for a Node.
+ * function Node(val, children) {
+ *    this.val = val;
+ *    this.children = children;
+ * };
+ */
+
+/**
+ * @param {Node} root
+ * @return {number[]}
+ */
+var preorder = function(root) {
+    var a = [];
+    // 深度优先
+    var call = (node, cache) => {
+        if (!node) return [];
+        cache.push(node.val);
+        if (node.children && node.children.length > 0) {
+            node.children.forEach((i) => {
+                call(i, cache);
+            });
+        }
+    }
+    call(root, a);
+    return a;
+    // 广度优先
+    // let queue = [root];
+    // while(queue.length) {
+    //     let cur = queue.shift();
+    //     a.push(cur.val);
+    //     queue = cur.children.concat(queue);
+    // }
+    // return a;
+};
+</script>

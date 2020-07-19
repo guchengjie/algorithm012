@@ -24,8 +24,48 @@
    */
   var rotate = function (nums, k) {
     // 使用队列
-    while (k--) {
-      nums.unshift(nums.pop());
+    // while (k--) {
+    //   nums.unshift(nums.pop());
+    // }
+
+    // 暴力法
+    const len = nums.length;
+    // while (k--) {
+    //   let last = nums[len - 1];
+    //   for (let i = 0; i < len; i++) {
+    //     let temp = nums[i];
+    //     nums[i] = last;
+    //     last = temp;
+    //   }
+    // }
+
+    //  额外的空间
+    // let c = [];
+    // for (let i = 0; i < len; i ++) {
+    //   c[(i + k) % len] = nums[i];
+    // }
+    // for (let i = 0; i < len; i ++) {
+    //   nums[i] = c[i];
+    // }
+
+    // 通过依次占位来替换位置上的值
+    k = k % len;
+    let count = 0;
+    for (let i = 0; count < len; i ++) {
+        let current = i;
+        let prev = nums[i];
+        do {
+            let next = (current + k) % len;
+            let temp = nums[next];
+            nums[next] = prev;
+            prev = temp;
+            current = next;
+            count++;
+        } while (i != current);
     }
+
+    return nums;
   };
+
+  console.log(rotate([1,2,3,4,5,6,7], 3));
 </script>
