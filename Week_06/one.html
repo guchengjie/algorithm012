@@ -1,0 +1,35 @@
+<script>
+  /**
+   * 64. 最小路径和
+   * @param {number[][]} grid
+   * @return {number}
+   */
+  var minPathSum = function (grid) {
+    // DP fn(i,j) = grid[i,j] + min(fn[i - 1, j] + fn[i, j - 1])  i,j > 0
+    // i == 0  fn(i,j) = grid[0, j] + fn[0, j - 1]);
+    // j == 0  fn(i,j) = grid[i, 0] + fn[i, 0]);
+    let row = grid.length;
+    let col = grid[0].length;
+    // for (let i = 0; i < row; i ++) {
+    //     for (let j = 0; j < col; j ++) {
+    //         if (i === 0 && j === 0) continue;
+    //         else if (i == 0)  grid[i][j] = grid[i][j - 1] + grid[i][j];
+    //         else if (j == 0)  grid[i][j] = grid[i - 1][j] + grid[i][j];
+    //         else grid[i][j] += Math.min(grid[i - 1][j], grid[i][j - 1]);
+    //     }
+    // }
+    // return grid[row - 1][col - 1];
+    const memo = new Map;
+    const dp = (i, j) => {
+      if (i < 0 || j < 0) return 0;
+      if (i === 0) return grid[i][j] + dp(i, j - 1);
+      if (j === 0) return grid[i][j] + dp(i - 1, j);
+
+      if (memo.has(`${i}-${j}`)) return memo.get(`${i}-${j}`);
+
+      memo.set(`${i}-${j}`, grid[i][j] + Math.min(dp(i - 1, j), dp(i, j - 1)));
+      return memo.get(`${i}-${j}`);
+    }
+    return dp(row - 1, col - 1);
+  };
+</script>
